@@ -162,21 +162,6 @@ public class CrptApi {
         public String uituCode;
     }
 
-    public static void main(String[] args) {
-        // 5 requests in a second allowed
-        CrptApiConfig config = new CrptApiConfig(TimeUnit.SECONDS, 5, "https://ismp.crpt.ru/api/v3/lk/documents/create");
-        CrptApi crptApi = new CrptApi(config);
-        String signature = "signature123";
-        Document document = getDocument();
-        try {
-            crptApi.createDocument(document, signature);
-            log.info("Document created successfully.");
-        } catch (InterruptedException | IOException e) {
-            log.info("Failed to create document: " + e.getMessage());
-            Thread.currentThread().interrupt();
-        }
-    }
-
     /**
      * Get product object
      *
@@ -219,6 +204,26 @@ public class CrptApi {
         Product product = getProduct();
         document.products = new Product[]{product};
         return document;
+    }
+
+    /**
+     * To showcase the flow of document creation
+     *
+     * @param args arguments
+     */
+    public static void main(String[] args) {
+        // 5 requests in a second allowed
+        CrptApiConfig config = new CrptApiConfig(TimeUnit.SECONDS, 5, "https://ismp.crpt.ru/api/v3/lk/documents/create");
+        CrptApi crptApi = new CrptApi(config);
+        String signature = "signature123";
+        Document document = getDocument();
+        try {
+            crptApi.createDocument(document, signature);
+            log.info("Document created successfully.");
+        } catch (InterruptedException | IOException e) {
+            log.info("Failed to create document: " + e.getMessage());
+            Thread.currentThread().interrupt();
+        }
     }
 }
 
