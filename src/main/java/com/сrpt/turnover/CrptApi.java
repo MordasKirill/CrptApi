@@ -166,8 +166,42 @@ public class CrptApi {
         // 5 requests in a second allowed
         CrptApiConfig config = new CrptApiConfig(TimeUnit.SECONDS, 5, "https://ismp.crpt.ru/api/v3/lk/documents/create");
         CrptApi crptApi = new CrptApi(config);
+        String signature = "signature123";
+        Document document = getDocument();
+        try {
+            crptApi.createDocument(document, signature);
+            log.info("Document created successfully.");
+        } catch (InterruptedException | IOException e) {
+            log.info("Failed to create document: " + e.getMessage());
+            Thread.currentThread().interrupt();
+        }
+    }
 
+    /**
+     * Get product object
+     *
+     * @return product object
+     */
+    private static Product getProduct() {
+        Product product = new Product();
+        product.certificateDocument = "cert123";
+        product.certificateDocumentDate = "2024-07-15";
+        product.certificateDocumentNumber = "certNumber";
+        product.ownerInn = "1234567890";
+        product.producerInn = "1234567890";
+        product.productionDate = "2024-07-18";
+        product.tnvedCode = "123456";
+        product.uitCode = "uitCode123";
+        product.uituCode = "uituCode123";
+        return product;
+    }
 
+    /**
+     * Get Document object
+     *
+     * @return Document object
+     */
+    private static Document getDocument() {
         Document document = new Document();
         document.description = new Description();
         document.description.participantInn = "123456789";
@@ -180,29 +214,11 @@ public class CrptApi {
         document.producerInn = "1234567896";
         document.productionDate = "2024-07-17";
         document.productionType = "TYPE1";
-        Product product = new Product();
-        product.certificateDocument = "cert123";
-        product.certificateDocumentDate = "2024-07-15";
-        product.certificateDocumentNumber = "certNumber";
-        product.ownerInn = "1234567890";
-        product.producerInn = "1234567890";
-        product.productionDate = "2024-07-18";
-        product.tnvedCode = "123456";
-        product.uitCode = "uitCode123";
-        product.uituCode = "uituCode123";
-        document.products = new Product[]{product};
         document.regDate = "2024-07-18";
         document.regNumber = "reg123";
-
-        String signature = "signature123";
-
-        try {
-            crptApi.createDocument(document, signature);
-            log.info("Document created successfully.");
-        } catch (InterruptedException | IOException e) {
-            log.info("Failed to create document: " + e.getMessage());
-            Thread.currentThread().interrupt();
-        }
+        Product product = getProduct();
+        document.products = new Product[]{product};
+        return document;
     }
 }
 
