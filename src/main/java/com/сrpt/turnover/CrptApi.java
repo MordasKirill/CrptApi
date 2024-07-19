@@ -1,4 +1,4 @@
-package org.international;
+package com.сrpt.turnover;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
